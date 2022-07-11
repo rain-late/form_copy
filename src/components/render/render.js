@@ -1,6 +1,11 @@
 import { deepClone } from '@/utils/index'
 
-import { customCanvas, customAddress, customGroup } from './customComponents'
+import {
+  customCanvas,
+  customAddress,
+  customGroup,
+  cText
+} from './customComponents'
 
 const componentChild = {}
 /**
@@ -102,7 +107,8 @@ export default {
   components: {
     customCanvas,
     customAddress,
-    customGroup
+    customGroup,
+    cText
   },
   props: {
     conf: {

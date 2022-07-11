@@ -10,7 +10,7 @@
     "build:tinymce": "vue-cli-service build --target lib --name form-gen-tinymce --dest ./src/components/tinymce/lib/ ./src/components/tinymce/index.js",
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve"
   },
   "dependencies": {
     "@babel/parser": "^7.7.4",

@@ -51,6 +51,24 @@ export const inputComponents = [
   },
   {
     __config__: {
+      label: '纯文本',
+      labelWidth: null,
+      showLabel: true,
+      changeTag: true,
+      tag: 'c-text',
+      tagIcon: 'button',
+      defaultValue: undefined,
+      required: true,
+      layout: 'colFormItem',
+      span: 24,
+      // 正则校验规则
+      regList: []
+    },
+    defaultValue: '',
+    style: { width: '100%' }
+  },
+  {
+    __config__: {
       label: '多行文本',
       labelWidth: null,
       showLabel: true,
@@ -239,11 +257,12 @@ export const inputComponents = [
       layout: 'colFormItem',
       required: false,
       showTip: true,
-      document: 'custom-address',
       province: '',
       detailAddress: ''
     },
+    __vModel__: '',
     disabled: false,
+    addressType: 3,
     separator: '/'
   }
 ]
@@ -631,7 +650,7 @@ export const layoutComponents = [
       label: '行容器',
       layoutTree: true,
       document:
-        'https://element.eleme.cn/#/zh-CN/component/layout#row-attributes'
+               'https://element.eleme.cn/#/zh-CN/component/layout#row-attributes'
     },
     type: 'default',
     justify: 'start',
@@ -679,7 +698,7 @@ export const layoutComponents = [
       dataPath: 'list',
       dataConsumer: 'data',
       url:
-        'https://www.fastmock.site/mock/f8d7a54fb1e60561e2f720d5a810009d/fg/tableData',
+               'https://www.fastmock.site/mock/f8d7a54fb1e60561e2f720d5a810009d/fg/tableData',
       children: [
         {
           __config__: {
@@ -753,10 +772,21 @@ export const layoutComponents = [
       layout: 'rowFormItem',
       tagIcon: 'row',
       customtype: 'custom',
+      customName: '分组',
       label: '自定义分组',
       layoutTree: true,
-      style: { border: '1px solid #f00', marginLeft: '20px', padding: 0 },
-      children: []
+      style: {
+        border: '1px dashed #ccc',
+        marginLeft: '0px',
+        padding: 0
+      },
+      componentNameStyle: {
+        padding: '10px 30px',
+        borderBottom: '1px dashed #ccc'
+      },
+      children: [],
+      placeholder: '请输入自定义组件名',
+      required: true
     },
     type: 'default',
     justify: 'start',

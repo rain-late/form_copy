@@ -3,8 +3,13 @@
     <div class="left-board">
       <div class="logo-wrapper">
         <div class="logo">
-          <img :src="logo" alt="logo"> Form Generator
-          <a class="github" href="https://github.com/JakHuang/form-generator" target="_blank">
+          <img :src="logo" alt="logo">
+          Form Generator
+          <a
+            class="github"
+            href="https://github.com/JakHuang/form-generator"
+            target="_blank"
+          >
             <img src="https://github.githubassets.com/pinned-octocat.svg" alt>
           </a>
         </div>
@@ -47,19 +52,34 @@
         <el-button icon="el-icon-video-play" type="text" @click="run">
           运行
         </el-button>
+
         <el-button icon="el-icon-view" type="text" @click="showJson">
           查看json
         </el-button>
+
         <el-button icon="el-icon-download" type="text" @click="download">
           导出vue文件
         </el-button>
-        <el-button class="copy-btn-main" icon="el-icon-document-copy" type="text" @click="copy">
+
+        <el-button
+          class="copy-btn-main"
+          icon="el-icon-document-copy"
+          type="text"
+          @click="copy"
+        >
           复制代码
         </el-button>
-        <el-button class="delete-btn" icon="el-icon-delete" type="text" @click="empty">
+
+        <el-button
+          class="delete-btn"
+          icon="el-icon-delete"
+          type="text"
+          @click="empty"
+        >
           清空
         </el-button>
       </div>
+
       <el-scrollbar class="center-scrollbar">
         <el-row class="center-board-row" :gutter="formConf.gutter">
           <el-form
@@ -68,7 +88,13 @@
             :disabled="formConf.disabled"
             :label-width="formConf.labelWidth + 'px'"
           >
-            <draggable class="drawing-board" :list="drawingList" :animation="340" group="componentsGroup">
+            <draggable
+              class="drawing-board"
+              :list="drawingList"
+              filter=".sign-canvas-box"
+              :animation="340"
+              group="componentsGroup"
+            >
               <draggable-item
                 v-for="(item, index) in drawingList"
                 :key="item.renderKey"
@@ -82,6 +108,7 @@
                 @deleteItem="drawingItemDelete"
               />
             </draggable>
+
             <div v-show="!drawingList.length" class="empty-info">
               从左侧拖入或点选组件进行表单设计
             </div>
@@ -104,18 +131,21 @@
       size="100%"
       :generate-conf="generateConf"
     />
+
     <json-drawer
       size="60%"
       :visible.sync="jsonDrawerVisible"
       :json-str="JSON.stringify(formData)"
       @refresh="refreshJson"
     />
+
     <code-type-dialog
       :visible.sync="dialogVisible"
       title="选择生成类型"
       :show-file-name="showFileName"
       @confirm="generate"
     />
+
     <input id="copyNode" type="hidden">
   </div>
 </template>
@@ -130,13 +160,24 @@ import FormDrawer from './FormDrawer'
 import JsonDrawer from './JsonDrawer'
 import RightPanel from './RightPanel'
 import {
-  inputComponents, selectComponents, layoutComponents, formConf
+  inputComponents,
+  selectComponents,
+  layoutComponents,
+  formConf
 } from '@/components/generator/config'
 import {
-  exportDefault, beautifierConf, isNumberStr, titleCase, deepClone, isObjectObject
+  exportDefault,
+  beautifierConf,
+  isNumberStr,
+  titleCase,
+  deepClone,
+  isObjectObject
 } from '@/utils/index'
 import {
-  makeUpHtml, vueTemplate, vueScript, cssStyle
+  makeUpHtml,
+  vueTemplate,
+  vueScript,
+  cssStyle
 } from '@/components/generator/html'
 import { makeUpJs } from '@/components/generator/js'
 import { makeUpCss } from '@/components/generator/css'
@@ -145,7 +186,11 @@ import logo from '@/assets/logo.png'
 import CodeTypeDialog from './CodeTypeDialog'
 import DraggableItem from './DraggableItem'
 import {
-  getDrawingList, saveDrawingList, getIdGlobal, saveIdGlobal, getFormConf
+  getDrawingList,
+  saveDrawingList,
+  getIdGlobal,
+  saveIdGlobal,
+  getFormConf
 } from '@/utils/db'
 import loadBeautifier from '@/utils/loadBeautifier'
 
@@ -204,8 +249,7 @@ export default {
       ]
     }
   },
-  computed: {
-  },
+  computed: {},
   watch: {
     // eslint-disable-next-line func-names
     'activeData.__config__.label': function (val, oldVal) {
@@ -281,14 +325,18 @@ export default {
     setRespData(component, resp) {
       const { dataPath, renderKey, dataConsumer } = component.__config__
       if (!dataPath || !dataConsumer) return
-      const respData = dataPath.split('.').reduce((pre, item) => pre[item], resp)
+      const respData = dataPath
+        .split('.')
+        .reduce((pre, item) => pre[item], resp)
 
       // 将请求回来的数据，赋值到指定属性。
       // 以el-tabel为例，根据Element文档，应该将数据赋值给el-tabel的data属性，所以 dataConsumer 的值应为'data';
       // 此时赋值代码可写成 component[dataConsumer] = respData；
       // 但为支持更深层级的赋值（如：dataConsumer的值为'options.data'）,使用 setObjectValueReduce
       this.setObjectValueReduce(component, dataConsumer, respData)
-      const i = this.drawingList.findIndex(item => item.__config__.renderKey === renderKey)
+      const i = this.drawingList.findIndex(
+        item => item.__config__.renderKey === renderKey
+      )
       if (i > -1) this.$set(this.drawingList, i, component)
     },
     fetchData(component) {
@@ -344,7 +392,6 @@ export default {
       if (config.layout === 'colFormItem') {
         item.__vModel__ = `field${this.idGlobal}`
       } else if (config.layout === 'rowFormItem') {
-        debugger
         if (config.customtype === 'custom') {
           config.componentName = config.label
         } else {
@@ -440,7 +487,10 @@ export default {
       this.activeData.__config__.tag = config.tag
       this.activeData.__config__.tagIcon = config.tagIcon
       this.activeData.__config__.document = config.document
-      if (typeof this.activeData.__config__.defaultValue === typeof config.defaultValue) {
+      if (
+        typeof this.activeData.__config__.defaultValue
+        === typeof config.defaultValue
+      ) {
         config.defaultValue = this.activeData.__config__.defaultValue
       }
       Object.keys(newTag).forEach(key => {
@@ -452,12 +502,16 @@ export default {
       this.updateDrawingList(newTag, this.drawingList)
     },
     updateDrawingList(newTag, list) {
-      const index = list.findIndex(item => item.__config__.formId === this.activeId)
+      const index = list.findIndex(
+        item => item.__config__.formId === this.activeId
+      )
       if (index > -1) {
         list.splice(index, 1, newTag)
       } else {
         list.forEach(item => {
-          if (Array.isArray(item.__config__.children)) this.updateDrawingList(newTag, item.__config__.children)
+          if (Array.isArray(item.__config__.children)) {
+            this.updateDrawingList(newTag, item.__config__.children)
+          }
         })
       }
     },
@@ -470,6 +524,6 @@ export default {
 }
 </script>
 
-<style lang='scss'>
-@import '@/styles/home';
+<style lang="scss">
+@import "@/styles/home";
 </style>

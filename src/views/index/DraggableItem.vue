@@ -91,7 +91,7 @@ const layouts = {
     return (
       <el-col span={config.span}>
         <el-row
-          style={config.style}
+          style={config.customtype === 'custom' && config.style}
           gutter={config.gutter}
           class={className}
           nativeOnClick={event => {
@@ -99,7 +99,7 @@ const layouts = {
             event.stopPropagation()
           }}
         >
-          <div style={{ padding: '10px 30px', borderBottom: '1px solid #f00' }}>{config.componentName}</div>
+          <div style={config.customtype === 'custom' && config.componentNameStyle}>{config.componentName}</div>
           <draggable
             list={config.children || []}
             animation={340}
